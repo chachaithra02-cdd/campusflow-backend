@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CampusFlow</title>
+
+    <style>
+        body{
+            font-family: Arial;
+            background:#f4f6f8;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+
+        .card{
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            width:350px;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        }
+
+        input, textarea{
+            width:100%;
+            padding:10px;
+            margin-top:10px;
+            border-radius:5px;
+            border:1px solid #ccc;
+        }
+
+        button{
+            margin-top:15px;
+            width:100%;
+            padding:12px;
+            background:#007bff;
+            color:white;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+        }
+
+        h2{
+            text-align:center;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>CampusFlow</h2>
+
+<input id="title" placeholder="Exam / Assignment Name">
+
+<input id="date" type="datetime-local">
+
+<textarea id="message" placeholder="Extra notes"></textarea>
+
+<button onclick="sendDeadline()">Add Deadline</button>
+
+<p id="status"></p>
+
+</div>
+
+<script>
+
+async function sendDeadline(){
+
+    const data = {
+        title: document.getElementById("title").value,
+        date: document.getElementById("date").value,
+        message: document.getElementById("message").value
+    };
+
+    document.getElementById("status").innerHTML="Sending...";
+
+    const res = await fetch("https://YOUR_RENDER_BACKEND_URL/add-deadline",{
+
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify(data)
+
+    });
+
+    const result = await res.json();
+
+    document.getElementById("status").innerHTML=result.msg;
+
+}
+
+</script>
+
+</body>
+</html>
